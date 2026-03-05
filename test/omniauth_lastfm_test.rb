@@ -113,4 +113,31 @@ class OmniauthLastfmTest < Minitest::Test
   ensure
     OmniAuth.config.request_validation_phase = previous_request_validation_phase
   end
+
+  def test_request_phase_uses_configured_callback_url
+    previous_request_validation_phase = OmniAuth.config.request_validation_phase
+    OmniAuth.config.request_validation_phase = nil
+
+    app = ->(_env) { [404, { 'Content-Type' => 'text/plain' }, ['not found']] }
+    callback = 'https://example.test/account/auth/windowslive/callback'
+    strategy = OmniAuth::Strategies::Lastfm.new(
+      app,
+      'client-key',
+      'client-secret',
+      callback_url: callback
+    )
+    env = Rack::MockRequest.env_for('/auth/lastfm', method: 'POST')
+    env['rack.session'] = {}
+
+    status, headers, = strategy.call(env)
+
+    assert_equal 302, status
+
+    location = URI.parse(headers['Location'])
+    params = URI.decode_www_form(location.query).to_h
+
+    assert_equal callback, params.fetch('cb')
+  ensure
+    OmniAuth.config.request_validation_phase = previous_request_validation_phase
+  end
 end

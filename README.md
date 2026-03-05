@@ -1,6 +1,6 @@
 # OmniAuth Last.fm
 
-[![Test](https://github.com/masterkain/omniauth-lastfm/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/masterkain/omniauth-lastfm/actions/workflows/test.yml)
+[![Test](https://github.com/icoretech/omniauth-lastfm/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/icoretech/omniauth-lastfm/actions/workflows/test.yml)
 [![Gem Version](https://img.shields.io/gem/v/omniauth-lastfm.svg)](https://rubygems.org/gems/omniauth-lastfm)
 
 `omniauth-lastfm` is an OmniAuth strategy for authenticating with Last.fm.

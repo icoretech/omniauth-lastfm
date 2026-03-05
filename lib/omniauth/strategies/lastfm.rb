@@ -57,6 +57,10 @@ module OmniAuth
         redirect("#{authorize_url}?#{query_string}")
       end
 
+      def callback_url
+        options[:callback_url] || super
+      end
+
       def callback_phase
         load_profile!
         super

@@ -12,13 +12,13 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'OmniAuth strategy for Last.fm authentication.'
   spec.description = 'OAuth strategy for OmniAuth that authenticates users with Last.fm and exposes profile metadata.'
-  spec.homepage = 'https://github.com/masterkain/omniauth-lastfm'
+  spec.homepage = 'https://github.com/icoretech/omniauth-lastfm'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.2'
 
-  spec.metadata['source_code_uri'] = 'https://github.com/masterkain/omniauth-lastfm'
-  spec.metadata['bug_tracker_uri'] = 'https://github.com/masterkain/omniauth-lastfm/issues'
-  spec.metadata['changelog_uri'] = 'https://github.com/masterkain/omniauth-lastfm/releases'
+  spec.metadata['source_code_uri'] = 'https://github.com/icoretech/omniauth-lastfm'
+  spec.metadata['bug_tracker_uri'] = 'https://github.com/icoretech/omniauth-lastfm/issues'
+  spec.metadata['changelog_uri'] = 'https://github.com/icoretech/omniauth-lastfm/releases'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files = Dir[
