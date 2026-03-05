@@ -29,9 +29,17 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 ```
 
-Set callback URL in the Last.fm API application settings:
+## Provider App Setup
+
+- Last.fm API applications: <https://www.last.fm/api/account/create>
+- Set callback URL in the Last.fm API application settings:
 
 - `https://your-app.example.com/auth/lastfm/callback`
+
+## Options
+
+- `api_timeout` (default `10`)
+- `callback_url`
 
 ## Auth Hash
 
@@ -111,7 +119,21 @@ Run Rails integration tests explicitly:
 RAILS_VERSION='~> 7.2.0' bundle exec rake test_rails_integration
 ```
 
-## Tested Matrix
+## Test Structure
+
+- `test/omniauth_lastfm_test.rb`: strategy/unit behavior
+- `test/rails_integration_test.rb`: full Rack/Rails request+callback flow
+- `test/test_helper.rb`: shared test bootstrap
+
+## Compatibility
 
 - Ruby: 3.2, 3.3, 3.4, 4.0
 - Rails integration: 7.1, 7.2, 8.0, 8.1
+
+## Release
+
+Tag releases as `vX.Y.Z`; GitHub Actions publishes the gem to RubyGems.
+
+## License
+
+MIT
