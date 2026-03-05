@@ -1,5 +1,3 @@
-module OmniAuth
-  module Lastfm
-    VERSION = "0.0.7"
-  end
-end
+# frozen_string_literal: true
+
+require 'omniauth/lastfm/version'

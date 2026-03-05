@@ -1,89 +1,82 @@
-OmniAuth Last.fm
-================
+# OmniAuth Last.fm
 
-Last.fm strategy for OmniAuth 1.0. 
+[![Test](https://github.com/masterkain/omniauth-lastfm/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/masterkain/omniauth-lastfm/actions/workflows/test.yml)
+[![Gem Version](https://img.shields.io/gem/v/omniauth-lastfm.svg)](https://rubygems.org/gems/omniauth-lastfm)
 
-Installing
-----------
-Add to your Gemfile:
+`omniauth-lastfm` is an OmniAuth strategy for authenticating with Last.fm.
 
-	gem 'omniauth'
-	gem 'omniauth-lastfm'
+## Installation
 
-Then `bundle install`.
+Add this line to your application's Gemfile:
 
-Usage
------
-You'll need an API account with Last.fm, you can get one here - http://www.last.fm/api. 
+```ruby
+gem 'omniauth-lastfm'
+```
 
-Usage of the gem is very similar to other OmniAuth 1.0 strategies. You'll need to add your API keys to `config/initializers/omniauth.rb`:
+Then run:
 
-	Rails.application.config.middleware.use OmniAuth::Builder do
-	  provider :lastfm, "consumer_key", "consumer_secret"
-	end
+```bash
+bundle install
+```
 
-Now simply follow the README at: https://github.com/intridea/omniauth.
+## Usage
 
-Auth Hash Schema
-----------------
-Here's an example auth hash, available in `request.env['omniauth.auth']`:
+Configure OmniAuth in your initializer:
 
-	{
-	   "provider": "lastfm",
-	   "uid": "ripuk",
-	   "info": {
-	      "nickname": "ripuk",
-	      "name": "David Stephens",
-	      "url": "http://www.last.fm/user/ripuk",
-	      "image": "http://userserve-ak.last.fm/serve/252/46787679.jpg",
-	      "country": "UK",
-	      "age": "31",
-	      "gender": "m"
-	   },
-	   "credentials": {
-	      "token": "abcdefghijklmnop",
-	      "name": "ripuk"
-	   },
-	   "extra": {
-	      "raw_info": {
-	         "name": "ripuk",
-	         "realname": "David Stephens",
-	         "image": [
-	            {
-	               "#text": "http://userserve-ak.last.fm/serve/34/46787679.jpg",
-	               "size": "small"
-	            },
-	            {
-	               "#text": "http://userserve-ak.last.fm/serve/64/46787679.jpg",
-	               "size": "medium"
-	            },
-	            {
-	               "#text": "http://userserve-ak.last.fm/serve/126/46787679.jpg",
-	               "size": "large"
-	            },
-	            {
-	               "#text": "http://userserve-ak.last.fm/serve/252/46787679.jpg",
-	               "size": "extralarge"
-	            }
-	         ],
-	         "url": "http://www.last.fm/user/ripuk",
-	         "id": "25400308",
-	         "country": "UK",
-	         "age": "31",
-	         "gender": "m",
-	         "subscriber": "0",
-	         "playcount": "11530",
-	         "playlists": "0",
-	         "bootstrap": "0",
-	         "registered": {
-	            "#text": "2009-12-30 00:53",
-	            "unixtime": "1262134389"
-	         },
-	         "type": "user"
-	      }
-	   }
-	}
-	
-What Next?
-----------
-The [Rockstar Gem](https://github.com/putpat/rockstar) is a great way to make use of the auth token retrieved with this gem.
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :lastfm, ENV.fetch('LASTFM_API_KEY'), ENV.fetch('LASTFM_SECRET_KEY')
+end
+```
+
+Set callback URL in the Last.fm API application settings:
+
+- `https://your-app.example.com/auth/lastfm/callback`
+
+## Auth Hash
+
+Example payload available in `request.env['omniauth.auth']`:
+
+```json
+{
+  "provider": "lastfm",
+  "uid": "ripuk",
+  "info": {
+    "nickname": "ripuk",
+    "name": "David Stephens",
+    "url": "https://www.last.fm/user/ripuk",
+    "image": "https://lastfm.freetls.fastly.net/i/u/300x300/abcdef.jpg",
+    "country": "UK",
+    "age": "31",
+    "gender": "m"
+  },
+  "credentials": {
+    "token": "abcdefghijklmnop",
+    "name": "ripuk"
+  },
+  "extra": {
+    "raw_info": {
+      "name": "ripuk"
+    }
+  }
+}
+```
+
+## Development
+
+Run lint and unit tests:
+
+```bash
+bundle exec rake
+```
+
+Run Rails integration tests explicitly:
+
+```bash
+RAILS_VERSION='~> 7.2.0' bundle exec rake test_rails_integration
+```
+
+## Tested Matrix
+
+- Ruby: 3.2, 3.3, 3.4, 4.0
+- Rails integration: 7.1, 7.2, 8.0, 8.1

@@ -1,0 +1,33 @@
+plugins:
+  - rubocop-minitest
+
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'lib/omniauth-lastfm.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*'
+    - 'lib/omniauth/strategies/lastfm.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/omniauth/strategies/lastfm.rb'
+    - 'test/rails_integration_test.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'test/**/*'
+    - 'lib/omniauth/strategies/lastfm.rb'
+
+Style/OneClassPerFile:
+  Exclude:
+    - 'test/rails_integration_test.rb'
+
+Minitest/MultipleAssertions:
+  Exclude:
+    - 'test/rails_integration_test.rb'
+    - 'test/omniauth_lastfm_test.rb'

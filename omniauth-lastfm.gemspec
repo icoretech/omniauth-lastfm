@@ -1,27 +1,33 @@
-# -*- encoding: utf-8 -*-
-$LOAD_PATH.push File.expand_path('../lib', __FILE__)
-require 'omniauth-lastfm/version'
+# frozen_string_literal: true
 
-Gem::Specification.new do |s|
-  s.name        = 'omniauth-lastfm'
-  s.version     = OmniAuth::Lastfm::VERSION
-  s.authors     = ['Claudio Poli']
-  s.email       = ['claudio@audiobox.fm']
-  s.homepage    = 'http://github.com/masterkain/omniauth-lastfm'
-  s.summary     = 'OmniAuth strategy for Last.fm'
-  s.description = 'OmniAuth strategy for Last.fm'
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'omniauth/lastfm/version'
 
-  s.rubyforge_project = 'omniauth-lastfm'
+Gem::Specification.new do |spec|
+  spec.name = 'omniauth-lastfm'
+  spec.version = OmniAuth::Lastfm::VERSION
+  spec.authors = ['Claudio Poli']
+  spec.email = ['masterkain@gmail.com']
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
-  s.require_paths = ['lib']
+  spec.summary = 'OmniAuth strategy for Last.fm authentication.'
+  spec.description = 'OAuth strategy for OmniAuth that authenticates users with Last.fm and exposes profile metadata.'
+  spec.homepage = 'https://github.com/masterkain/omniauth-lastfm'
+  spec.license = 'MIT'
+  spec.required_ruby_version = '>= 3.2'
 
-  s.add_development_dependency 'rspec', '~> 2.10'
-  s.add_development_dependency 'rack-test'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'webmock'
-  s.add_runtime_dependency 'omniauth-oauth', '~> 1.0'
-  s.add_runtime_dependency 'rest-client', '>= 1.6.6'
+  spec.metadata['source_code_uri'] = 'https://github.com/masterkain/omniauth-lastfm'
+  spec.metadata['bug_tracker_uri'] = 'https://github.com/masterkain/omniauth-lastfm/issues'
+  spec.metadata['changelog_uri'] = 'https://github.com/masterkain/omniauth-lastfm/releases'
+  spec.metadata['rubygems_mfa_required'] = 'true'
+
+  spec.files = Dir[
+    'lib/**/*.rb',
+    'README*',
+    'LICENSE*',
+    '*.gemspec'
+  ]
+  spec.require_paths = ['lib']
+
+  spec.add_dependency 'omniauth', '>= 2.1', '< 3.0'
 end
