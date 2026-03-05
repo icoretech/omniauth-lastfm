@@ -52,6 +52,64 @@ class OmniauthLastfmTest < Minitest::Test
     assert_equal({ token: 'session-key', name: 'ripuk' }, strategy.credentials)
   end
 
+  def test_uid_info_extra_and_credentials_match_live_lastfm_payload_shape
+    strategy = build_strategy
+    strategy.instance_variable_set(
+      :@json,
+      {
+        'session' => { 'name' => 'sample_user', 'key' => 'sample-session-key' },
+        'user' => {
+          'name' => 'sample_user',
+          'age' => '0',
+          'subscriber' => '0',
+          'realname' => 'Sample User',
+          'bootstrap' => '0',
+          'playcount' => '49612',
+          'artist_count' => '399',
+          'playlists' => '0',
+          'track_count' => '5271',
+          'album_count' => '690',
+          'image' => [
+            {
+              'size' => 'small',
+              '#text' => 'https://lastfm.freetls.fastly.net/i/u/34s/sample-image-id.png'
+            },
+            {
+              'size' => 'medium',
+              '#text' => 'https://lastfm.freetls.fastly.net/i/u/64s/sample-image-id.png'
+            },
+            {
+              'size' => 'large',
+              '#text' => 'https://lastfm.freetls.fastly.net/i/u/174s/sample-image-id.png'
+            },
+            { 'size' => 'extralarge', '#text' => 'https://lastfm.freetls.fastly.net/i/u/300x300/sample-image-id.png' }
+          ],
+          'registered' => { 'unixtime' => '1257061701', '#text' => 1_257_061_701 },
+          'country' => 'Neverland',
+          'gender' => 'n',
+          'url' => 'https://www.last.fm/user/sample_user',
+          'type' => 'user'
+        }
+      }
+    )
+
+    assert_equal 'sample_user', strategy.uid
+    assert_equal(
+      {
+        nickname: 'sample_user',
+        name: 'Sample User',
+        url: 'https://www.last.fm/user/sample_user',
+        image: 'https://lastfm.freetls.fastly.net/i/u/300x300/sample-image-id.png',
+        country: 'Neverland',
+        age: '0',
+        gender: 'n'
+      },
+      strategy.info
+    )
+    assert_equal({ 'raw_info' => strategy.instance_variable_get(:@json)['user'] }, strategy.extra)
+    assert_equal({ token: 'sample-session-key', name: 'sample_user' }, strategy.credentials)
+  end
+
   def test_signature_matches_lastfm_oauth_expectation
     strategy = build_strategy
 
