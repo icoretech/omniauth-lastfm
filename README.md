@@ -1,4 +1,4 @@
-# OmniAuth Last.fm
+# OmniAuth Last.fm Strategy
 
 [![Test](https://github.com/icoretech/omniauth-lastfm/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/icoretech/omniauth-lastfm/actions/workflows/test.yml)
 [![Gem Version](https://badge.fury.io/rb/omniauth-lastfm.svg)](https://badge.fury.io/rb/omniauth-lastfm)
