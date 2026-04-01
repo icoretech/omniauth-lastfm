@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'digest/md5'
-require 'json'
-require 'net/http'
-require 'omniauth'
-require 'uri'
+require "digest/md5"
+require "json"
+require "net/http"
+require "omniauth"
+require "uri"
 
 module OmniAuth
   module Strategies
@@ -14,40 +14,40 @@ module OmniAuth
 
       args %i[api_key secret_key]
 
-      option :name, 'lastfm'
+      option :name, "lastfm"
       option :api_key, nil
       option :secret_key, nil
       option :api_timeout, 10
       option :client_options,
-             site: 'https://www.last.fm',
-             authorize_path: '/api/auth',
-             api_url: 'https://ws.audioscrobbler.com/2.0/',
-             user_agent: 'icoretech-omniauth-lastfm gem'
+        site: "https://www.last.fm",
+        authorize_path: "/api/auth",
+        api_url: "https://ws.audioscrobbler.com/2.0/",
+        user_agent: "icoretech-omniauth-lastfm gem"
 
-      uid { session_data['name'] }
+      uid { session_data["name"] }
 
       info do
         {
-          nickname: user_data['name'],
-          name: user_data['realname'],
-          url: user_data['url'],
-          image: image_url(user_data['image']),
-          country: user_data['country'],
-          age: user_data['age'],
-          gender: user_data['gender']
+          nickname: user_data["name"],
+          name: user_data["realname"],
+          url: user_data["url"],
+          image: image_url(user_data["image"]),
+          country: user_data["country"],
+          age: user_data["age"],
+          gender: user_data["gender"]
         }.compact
       end
 
       extra do
         {
-          'raw_info' => user_data
+          "raw_info" => user_data
         }
       end
 
       credentials do
         {
-          token: session_data['key'],
-          name: session_data['name']
+          token: session_data["key"],
+          name: session_data["name"]
         }.compact
       end
 
@@ -64,19 +64,19 @@ module OmniAuth
       def callback_phase
         load_profile!
         super
-      rescue StandardError => e
+      rescue => e
         fail!(:invalid_credentials, e)
       end
 
       protected
 
       def load_profile!
-        token = request.params['token'].to_s
-        raise ArgumentError, 'Missing token parameter in callback request' if token.empty?
+        token = request.params["token"].to_s
+        raise ArgumentError, "Missing token parameter in callback request" if token.empty?
 
         session_payload = fetch_json(session_params(token))
-        user_name = session_payload.dig('session', 'name').to_s
-        raise ArgumentError, 'Missing session name in Last.fm session response' if user_name.empty?
+        user_name = session_payload.dig("session", "name").to_s
+        raise ArgumentError, "Missing session name in Last.fm session response" if user_name.empty?
 
         @json = session_payload
         @json.merge!(fetch_json(user_info_params(user_name)))
@@ -87,13 +87,13 @@ module OmniAuth
         uri.query = URI.encode_www_form(params)
 
         http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = uri.scheme == 'https'
+        http.use_ssl = uri.scheme == "https"
         http.open_timeout = options.api_timeout
         http.read_timeout = options.api_timeout
 
         request = Net::HTTP::Get.new(uri.request_uri)
-        request['Accept'] = 'application/json'
-        request['User-Agent'] = options.client_options.user_agent
+        request["Accept"] = "application/json"
+        request["User-Agent"] = options.client_options.user_agent
 
         response = http.request(request)
         unless response.is_a?(Net::HTTPSuccess)
@@ -106,23 +106,23 @@ module OmniAuth
       end
 
       def session_data
-        @json&.fetch('session', {}) || {}
+        @json&.fetch("session", {}) || {}
       end
 
       def user_data
-        @json&.fetch('user', {}) || {}
+        @json&.fetch("user", {}) || {}
       end
 
       def image_url(value)
         case value
         when Array
           value.reverse_each do |entry|
-            image = entry.fetch('#text', '').to_s
+            image = entry.fetch("#text", "").to_s
             return image unless image.empty?
           end
           nil
         when Hash
-          image = value.fetch('#text', '').to_s
+          image = value.fetch("#text", "").to_s
           image.empty? ? nil : image
         else
           image = value.to_s
@@ -142,8 +142,8 @@ module OmniAuth
           api_key: options.api_key,
           token: token,
           api_sig: signature(token),
-          method: 'auth.getSession',
-          format: 'json'
+          method: "auth.getSession",
+          format: "json"
         }
       end
 
@@ -151,8 +151,8 @@ module OmniAuth
         {
           api_key: options.api_key,
           user: user_name,
-          method: 'user.getInfo',
-          format: 'json'
+          method: "user.getInfo",
+          format: "json"
         }
       end
 
